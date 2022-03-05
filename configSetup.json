@@ -26,7 +26,7 @@
     "lang": ["RUS", "ENG"],
 	"line_color":["#1511e8", "#0f9dcc", "#df3320", "#d9e70d", "#e042d3", "#680317", "#800cdf", "#09ce44", "#83e633", "#d0961b"],
 	"box_name" :["home", "kitchen", "bath", "toilet", "spaln", "street", "prihoj", "vanna", "okno", "podval"],
-	"selected_val": [0,1,10,10,10,10,10,10,10,10],
+	"selected_val": [0,1,2,3,10,10,10,10,10,5],
     "dt_addr": [
         [40, 168, 16, 166, 11, 0, 0, 254],
         [255, 255, 255, 255, 255, 255, 255, 255],		
