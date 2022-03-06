@@ -90,7 +90,7 @@ function load_langList(configSetup) {
 function createChart(){
 	data = {
 		datasets: [
-			  { pointRadius: 2, fill: false
+			  { pointRadius: 0, fill: false
 			},{ pointRadius: 0, fill: false
 			},{ pointRadius: 0, fill: false
 			},{ pointRadius: 0, fill: false
