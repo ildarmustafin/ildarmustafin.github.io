@@ -90,7 +90,7 @@ function load_langList(configSetup) {
 function createChart(){
 	data = {
 		datasets: [
-			  { pointRadius: 0, fill: false
+			  { pointRadius: 2, fill: false
 			},{ pointRadius: 0, fill: false
 			},{ pointRadius: 0, fill: false
 			},{ pointRadius: 0, fill: false
@@ -106,7 +106,16 @@ function createChart(){
 	options = {
 		animation: false,		
 		scales: {
-			x: {	
+			x: {
+                type: 'time',
+				//unit: "hour",
+				unitStepSize: 2,
+                time: {
+                    unit: 'hour',
+                    displayFormats: {
+                        quarter: 'MMM YYYY'
+                    }					
+                },				
 				ticks: {
 					//callback: function(val, index) {
 					//return index % 2 === 0 ? this.getLabelForValue(val) : '';
@@ -153,14 +162,20 @@ async function loadConvertJson(load_month, load_day_from, load_day_to, load_hour
 		let jsonfile = await response.json();
 		for (let i = load_day_from; i <= (load_day_to-1); i++) { //26.01 - 30.01 и 01.02 - 04.02
 			for (let j = 0; j <= 11; j++) {				
-				let xlabel = add_zero(i)+"."+add_zero(load_month)+"."+String(parsed_year).slice(2,4)+"_" + add_zero(j*2)+":00";
+				//let xlabel = add_zero(i)+"."+add_zero(load_month)+"."+String(parsed_year).slice(2,4)+"_" + add_zero(j*2)+":00";
+				//new Date('2011-04-11T10:20:30Z')
+				let xlabel = new Date(parsed_year+'-'+add_zero(load_month)+'-'+add_zero(i)+'T'+add_zero(j*2)+':'+'00:00+03:00');
+				console.log(xlabel)
+				console.log(add_zero(i), add_zero(load_month), add_zero(j*2));
+
 				if (once) myChart.data.labels.push(xlabel);
 				myChart.data.datasets[base_numb].data.push(jsonfile.days[i][j]);
 			}
 		}
 		let lh = (load_hours == 11) ? 11 : load_hours;
 		for (let j = 0; j <= lh; j++) {                         //31.01 и 05.02
-			let xlabel = add_zero(load_day_to)+"."+add_zero(load_month)+"."+String(parsed_year).slice(2,4)+"_" + add_zero(j*2)+":00";				
+			//let xlabel = add_zero(load_day_to)+"."+add_zero(load_month)+"."+String(parsed_year).slice(2,4)+"_" + add_zero(j*2)+":00";		
+			let xlabel = new Date(parsed_year+'-'+add_zero(load_month)+'-'+add_zero(load_day_to)+'T'+add_zero(j*2)+':'+'00:00+03:00');			
 			if (once) myChart.data.labels.push(xlabel);
 			myChart.data.datasets[base_numb].data.push(jsonfile.days[load_day_to][j]);
 		}
