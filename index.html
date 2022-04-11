@@ -1,61 +1,94 @@
-<button onclick="SaveFile()">Save File</button>
-<input type="file" id="fileToLoad" accept="text/plain" />
-<br>
-<br>
+<!DOCTYPE html>
+<!doctype html>
+<script src="https://cdn.jsdelivr.net/npm/idb@3.0.2/build/idb.min.js"></script>
 
+
+<input type="text" id="pass_name" value="enabled"></input>
+<input type="number" id="pass_value"></input>
+<br>
+<input type="text" id="jname"></input>
+<input type="text" id="jval"></input>
+<br>
+<button onclick="addPass()">Add password</button> 
+<button onclick="addDate(); addValue();">Add Date and Value</button> 
+<button onclick="listDate(); listValue();">List note</button>   
+<button onclick="eraseNote()">Erase note</button>   
+<br>
 <span id="text_in" ></span>
-	
+
+
 <script>
-	let obj = {}; 
-	let jsonData = {
-		"selIndex": 5,
-	    "oklad": 1000,
-		"calendar":[128, 151, 175, 168, 136, 168, 159, 184, 176, 159, 167, 176],
-		"ofis":["", "", "", "", "", "", "", "", "", "", "", ""],
-		"razyezd":["", "", "", "", "", "", "", "", "", "", "", ""],
-		"doroga":["", "", "", "", "", "", "", "", "", "", "", ""],
-		"night":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],	
-		"evening":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],		
-		"premia_ar":[0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
-		"premia_pred_ar":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-		"prof_ar":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-	};
-	
-	function createBlob(data) {
-	  return new Blob([data], { type: "text/plain" });
-	}
+let db;
+let jsonDate = {
+	"ofis":["", "", "", "", "", "", "", "", "", "", "", ""],
+	"razyezd":["", "", "", "", "", "", "", "", "", "", "", ""],
+	"doroga":["", "", "", "", "", "", "", "", "", "", "", ""],
+	"night":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+};
 
-	function saveAs(content, fileName) {
-	  const a = document.createElement("a");
-	  const isBlob = content.toString().indexOf("Blob") > -1;
-	  let url = content;
-	  if (isBlob) {
-		url = window.URL.createObjectURL(content);
-	  }
-	  a.href = url;
-	  a.download = fileName;
-	  a.click();
-	  if (isBlob) {
-		window.URL.revokeObjectURL(url);
-	  }
-	}
+let jsonValue = {
+	"selIndex": 5,
+	"oklad": 1000,
+	"calendar":[128, 151, 175, 168, 136, 168, 159, 184, 176, 159, 167, 176],
+	"premia_ar":[0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7, 0.7],
+	"premia_pred_ar":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+	"prof_ar":[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
+};
+		
+init();
 
-	function SaveFile() {
-	  let text_out = JSON.stringify(jsonData);
-	  const file = createBlob(text_out);
-	  text_in.innerHTML = text_out;
-	  saveAs(file, "zp-options.txt");
-	}
-	
-	document.getElementById('fileToLoad')
-		.addEventListener('change', function() {
-		  
-		var fr=new FileReader();
-		fr.onload=function(){
-			document.getElementById('text_in').innerHTML = fr.result;
-		}	  
-		fr.readAsText(this.files[0]);
-		console.log(obj);
-	})	
-	
+async function init() {
+  db = await idb.openDb('zp-babki', 1, db => {
+    db.createObjectStore('passen', {keyPath: 'name'});
+    db.createObjectStore('jDate', {keyPath: 'name'});
+    db.createObjectStore('jValue', {keyPath: 'name'});	
+  });
+}
+
+async function addPass() {
+  let name = 'enabled';
+  let value = document.getElementById('pass_value').value;
+  let tx = db.transaction('passen', 'readwrite');
+  tx.objectStore('passen').put({name, value});	
+}
+
+async function addDate() {
+  let name = 'jDate';
+  let value = jsonDate;
+  let tx = db.transaction('jDate', 'readwrite');
+  tx.objectStore('jDate').put({name, value});	
+}
+
+async function addValue() {
+  let name = 'jValue';
+  let value = jsonValue;
+  let tx = db.transaction('jValue', 'readwrite');
+  tx.objectStore('jValue').put({name, value});	
+}
+
+async function eraseNote() {
+  let tx = db.transaction('passen', 'readwrite');
+  await tx.objectStore('passen').clear();
+}
+
+async function listDate() {
+  let tx = db.transaction('jDate');
+  let bookStore = tx.objectStore('jDate');
+  let books = await bookStore.getAll();
+  text_in.innerHTML = JSON.stringify(books);
+  console.log(JSON.parse(JSON.stringify(books))[0].value);
+}
+
+async function listValue() {
+  let tx = db.transaction('jValue');
+  let bookStore = tx.objectStore('jValue');
+  let books = await bookStore.getAll();
+  text_in.innerHTML = JSON.stringify(books);
+  console.log(JSON.parse(JSON.stringify(books))[0].value);
+}
+
+window.addEventListener('unhandledrejection', event => {
+  alert("Ошибка: " + event.reason.message);
+});
+
 </script>
