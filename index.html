@@ -632,8 +632,9 @@
 	}
 
 	function SaveFile() {
-		save();
-    	let text_out = JSON.stringify(json_val);
+		if (localStorage.getItem('jsonData') == null) localStorage.setItem("jsonData", JSON.stringify(jsonData));
+    		let text_out = JSON.stringify(JSON.parse(localStorage.getItem ("jsonData")));	
+		console.log(text_out);		
 		const file = createBlob(text_out);
 		saveAs(file, "zp-options.txt");
 	}
