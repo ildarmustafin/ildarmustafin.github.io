@@ -610,8 +610,9 @@
 	
 	function save() {
 		//if (localStorage.getItem('passen') !== null) {localStorage.setItem("passen", 1);}
-		if (localStorage.getItem('jsonData') == null) localStorage.setItem("jsonData", JSON.stringify(jsonData));
-		json_val = JSON.parse(localStorage.getItem ("jsonData"));		
+		//if (localStorage.getItem('jsonData') == null) localStorage.setItem("jsonData", JSON.stringify(jsonData));
+		//json_val = JSON.parse(localStorage.getItem ("jsonData"));		
+		
 		let selIndex = document.getElementById("select_m").options.selectedIndex;	
 		json_val.calendar[selIndex] = parseInt(rab_chas.value);
 		json_val.selIndex = selIndex;	
