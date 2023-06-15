@@ -1,0 +1,416 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+<meta name="viewport" content="width=600">
+<meta http-equiv="Content-type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="tooltips.css" onerror="" async>
+<link rel="stylesheet" type="text/css" href="grid.css" onerror="" async>
+<link rel="stylesheet" type="text/css" href="dygraph.css" onerror="" async>
+<script src="dygraph.min.js" charset="utf-8" onerror="" defer></script> 
+<script src="smooth-plotter.js" charset="utf-8" onerror="" defer></script> 
+<script src="functions.js" onerror="" defer></script>
+
+
+
+<!-- defer async-->
+<title>ESP8266</title>
+</head>
+<body>
+
+<div class="wrapper">
+    <div id="er_mes">
+		<div id="er_mes1"></div>
+		<div id="er_mes2"></div>
+	</div>		
+    <div class="box ver" id="rst_c">
+		<div class="box verA pl-10">
+			<div id="text_fw">FW: --</div>	
+		</div>
+		<div class="box verA pl-10">
+			<div id="text_fs">FS: --</div>
+		</div>  
+    </div>
+	<div class="box time alignCenter" id="text_time" style="font-weight:bold;color:white;font-size:24px;">--.--.---- --:--:--</div>	
+	<div class="box wifi" id="ttip_wifi" tooltip_wifi="RSSI: -- dBm MQTT: -- WS: -- RST COUNT: --">
+		<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" id="text_wifi" viewBox="0 0 16 12">
+			<path fill="white" id="wifiID" d="M0 13.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
+		</svg>	 
+    </div>
+	<div class="box lang">
+		<select name="defaultLang" id="selLang" class="select selectText rdLR" style="width:100%; height:100%;">
+			<option value="0">RUS</option>
+			<option value="1">ENG</option>
+		</select> 
+	</div> 
+    <div class="box datchiki p-5" id="ttip_temp" tooltip_temp="COR: -- °C"> <!-- temp -->
+		<div class="box datchikiA p-0 alignCenter">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+				<path fill="white" id="temp1ID" d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V6.5a.5.5 0 0 1 1 0v4.585a1.5 1.5 0 0 1 1 1.415z"/>
+				<path fill="white" id="temp2ID" d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z"/>
+			</svg>			
+		</div>
+		<div class="box datchikiA p-0 alignCenter" id="text_temp" style="padding-top:5px;font-weight:bold;"></div>  
+    </div> 
+    <div class="box datchiki p-5" id="ttip_led" tooltip_led="MAX: -- % MIN: -- % "> <!-- led -->
+		<div class="box datchikiA p-0 alignCenter">
+			<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16">
+				<path fill-rule="evenodd" id="ledID" fill="white" d="M2.23 4.35A6.004 6.004 0 0 0 2 6c0 1.691.7 3.22 1.826 4.31.203.196.359.4.453.619l.762 1.769A.5.5 0 0 0 5.5 13a.5.5 0 0 0 0 1 .5.5 0 0 0 0 1l.224.447a1 1 0 0 0 .894.553h2.764a1 1 0 0 0 .894-.553L10.5 15a.5.5 0 0 0 0-1 .5.5 0 0 0 0-1 .5.5 0 0 0 .288-.091L9.878 12H5.83l-.632-1.467a2.954 2.954 0 0 0-.676-.941 4.984 4.984 0 0 1-1.455-4.405l-.837-.836zm1.588-2.653.708.707a5 5 0 0 1 7.07 7.07l.707.707a6 6 0 0 0-8.484-8.484zm-2.172-.051a.5.5 0 0 1 .708 0l12 12a.5.5 0 0 1-.708.708l-12-12a.5.5 0 0 1 0-.708z"/>
+			</svg>				
+		</div>
+		<div class="box datchikiA p-0 alignCenter" id="text_l" style="padding-top:5px;font-weight:bold;">--%</div>
+	</div> 
+    <div class="box datchiki p-5 alignCenter" id="ttip_fan" tooltip_fan="ON : -- °C OFF: -- °C"> <!-- fan -->
+		<svg id="fan_svg" xmlns="http://www.w3.org/2000/svg" width="46" height="46" viewBox="0 0 1000 1000">
+			<g>
+				<g transform="translate(0.000000,511.000000) scale(0.100000,-0.100000)">
+					<path fill="#36343361" id="fanID" d="M4283.1,4730.3c-352.4-37.2-849.6-146.8-1117.9-244.7c-285.8-105.7-589.3-346.5-761.5-604.9c-428.7-646-334.8-1437,260.4-2188.7c68.5-88.1,366.1-379.8,687.2-679.3L3917,487.9l-66.6-92C3686,166.9,3615.5-81.7,3631.1-381.3l9.8-187.9l-276,11.7c-469.8,19.6-787,131.2-988.6,348.5c-479.6,522.7-720.4,675.4-1100.2,697C982.4,505.6,739.6,405.7,492.9,161C328.5-1.5,295.2-66.1,209.1-400.9c-325-1272.5,84.2-2566.5,1121.8-3549.3c307.4-291.7,469.8-397.4,745.9-487.5c789-256.4,1650.4,156.6,2049.7,982.8c139,287.8,178.2,436.6,326.9,1231.4l141,751.7l160.5-7.8c299.5-15.7,618.6,94,830.1,283.9l101.8,92l37.2-48.9c68.5-92,209.5-342.6,262.3-465.9c142.9-340.6,162.5-614.7,66.6-882.9c-86.1-242.8-115.5-407.2-115.5-644.1c0-352.4,80.3-573.6,283.9-775.2c211.4-211.4,595.1-364.1,841.8-334.8c268.2,31.3,745.9,215.3,1072.8,411.1c900.5,540.3,1472.2,1399.7,1718.9,2586.1c129.2,622.5-19.6,1174.6-424.8,1583.8C9091.2,666.1,8686,803.1,8071.2,781.6c-424.9-15.7-579.5-56.8-1429.1-379.8l-714.6-274.1L5859,256.9c-105.7,201.6-321.1,407.2-540.3,514.9l-180.1,86.1l109.6,166.4c205.6,307.4,485.5,561.9,714.6,648c52.9,19.6,168.4,45,256.5,56.8c828.1,99.8,1333.2,616.7,1243.1,1268.6c-37.2,272.1-80.3,368.1-250.6,571.7c-270.2,323-651.9,616.7-1068.9,820.3c-471.8,233-882.9,330.8-1429.1,340.6C4519.9,4734.2,4326.1,4734.2,4283.1,4730.3z M5036.8,4289.8c485.5-56.8,1041.5-289.7,1433-601c78.3-62.7,223.2-199.7,323-303.4c207.5-217.3,240.8-293.7,240.8-542.3c0-121.4-9.8-168.4-50.9-248.6c-117.5-238.8-428.7-405.2-845.8-454.2c-297.5-37.2-489.4-121.4-751.8-332.8c-217.3-174.2-418.9-424.8-603-743.9l-99.8-172.3l-111.6-23.5c-60.7-13.7-162.5-47-225.1-74.4c-111.6-50.9-113.6-50.9-156.6-11.7c-650,577.5-1162.9,1067-1272.5,1211.8c-248.6,330.8-372,659.7-372,986.7c0,332.8,113.5,599.1,358.3,841.8c182.1,184,346.5,272.1,650,352.4C4093.2,4317.2,4519.9,4350.5,5036.8,4289.8z M5120.9,437c156.6-60.7,327-223.2,409.2-389.6c58.7-119.4,64.6-144.9,64.6-317.1c0-166.4-5.9-199.7-60.7-313.2c-111.6-236.9-336.7-405.3-599.1-450.3c-432.6-76.4-853.5,256.5-890.8,698.9c-29.4,360.2,191.9,681.3,552.1,802.7C4711.8,505.6,4982,489.9,5120.9,437z M8456.9,345c479.6-97.9,796.8-379.8,957.3-849.6c58.7-170.3,50.9-512.9-19.6-812.5c-82.2-354.4-176.2-616.7-325-920.1c-393.5-792.9-1076.7-1360.6-1891.1-1566.2c-166.4-43.1-188-45-307.4-19.6c-338.7,70.5-501.2,262.3-518.8,612.8c-9.8,209.5,13.7,354.4,97.9,591.2c176.2,497.2,27.4,1125.7-413.1,1742.4l-115.5,162.5l29.4,80.3c15.7,45,33.3,139,39.2,209.5l11.7,129.2L6747.8-9.3c409.1,158.6,798.7,301.5,865.3,317.1C7900.9,380.3,8222,394,8456.9,345z M1418.9,41.6c162.5-52.8,313.2-154.6,444.4-295.6c366.1-391.5,399.4-419,589.3-511c307.4-148.8,730.2-225.1,1141.3-203.6l211.4,11.7l150.7-152.7c82.2-84.2,170.3-164.4,193.8-180.1l41.1-27.4L4050.1-2061c-158.6-830.1-180.1-912.3-285.8-1137.4c-319.1-685.2-877-994.5-1511.4-839.9c-248.6,62.6-530.5,258.4-824.2,575.6c-761.6,824.2-1065,1738.4-902.5,2703.6C588.9-393,669.1-207,812-89.6C1017.6,78.8,1195.8,117.9,1418.9,41.6z"/>
+				</g>
+			</g>
+		</svg>	
+	</div> 
+    <div class="box datchiki p-5 alignCenter" id="ttip_ten" tooltip_ten="ON : -- °C OFF: -- °C"> <!-- ten -->
+		<svg version="1.1" id="ten_svg" xmlns="http://www.w3.org/2000/svg"  width="46" height="46" viewBox="0 0 1000 1000">
+			<g>
+				<path fill="#36343361" id="tenID1" d="M911.2,522.3c-28.8,0-69.7,2.1-104.8,19.4c-26-12.9-58.2-19.4-96-19.4c-28.8,0-69.7,2.1-104.8,19.4c-26-12.9-58.2-19.4-96-19.4c-28.8,0-69.7,2.1-104.8,19.4c-26-12.9-58.2-19.4-96-19.4c-28.8,0-69.7,2.1-104.8,19.4c-26-12.9-58.2-19.4-96-19.4H88.8c-43.5,0-78.8,35.4-78.8,78.8v312.6c0,43.5,35.4,78.8,78.8,78.8h822.3c43.5,0,78.8-35.4,78.8-78.8V601.2C990,557.7,954.6,522.3,911.2,522.3z M806.3,593.1c31.5,26.8,31.5,65.9,31.5,83.1c0,45.7-18,66.2-30.8,66.2c-12.5,0-30.1-20.5-30.1-66.2C776.9,638.1,786.1,610.9,806.3,593.1z M605.5,593.1C637,619.9,637,659,637,676.1c0,45.7-18,66.2-30.8,66.2c-12.5,0-30.1-20.5-30.1-66.2C576.1,638.1,585.2,610.9,605.5,593.1z M404.7,593.1c31.5,26.8,31.5,65.9,31.5,83.1c0,45.7-18,66.2-30.8,66.2c-12.5,0-30.1-20.5-30.1-66.2C375.3,638.1,384.4,610.9,404.7,593.1z M203.9,593.1c31.5,26.8,31.5,65.9,31.5,83.1c0,45.7-18,66.2-30.8,66.2c-12.5,0-30.1-20.5-30.1-66.2C174.5,638.1,183.6,610.9,203.9,593.1z M946.7,913.7c0,19.6-15.9,35.5-35.5,35.5H88.8c-19.6,0-35.5-15.9-35.5-35.5V601.2c0-19.6,15.9-35.5,35.5-35.5h19.1c22.3,0,40.7,2.5,55.8,6.9c-21.6,25.4-32.6,60-32.6,103.6c0,75.2,38.1,109.5,73.4,109.5c20.8,0,40.5-11.5,54-31.7c13.1-19.6,20.1-46.5,20.1-77.9c0-43.2-11.4-77.9-34-103.6c17.6-4.7,38.9-7,64-7c22.3,0,40.7,2.5,55.8,6.9c-21.6,25.4-32.6,60-32.6,103.6c0,75.2,38.1,109.5,73.4,109.5c20.8,0,40.5-11.5,54-31.7c13.1-19.6,20.1-46.5,20.1-77.9c0-43.2-11.4-77.9-34-103.6c17.6-4.7,38.9-7,64-7c22.3,0,40.7,2.5,55.8,6.9c-21.6,25.4-32.6,60-32.6,103.6c0,75.2,38.1,109.5,73.4,109.5c20.8,0,40.5-11.5,54-31.7c13.1-19.6,20.1-46.5,20.1-77.9c0-43.2-11.4-77.9-34-103.6c17.6-4.7,38.9-7,64-7c22.3,0,40.7,2.5,55.8,6.9c-21.6,25.4-32.6,60-32.6,103.6c0,75.2,38.1,109.5,73.4,109.5c20.8,0,40.5-11.5,54-31.7c13.1-19.6,20.1-46.5,20.1-77.9c0-43.2-11.4-77.9-34-103.6c17.6-4.7,38.9-7,64-7c19.6,0,35.5,15.9,35.5,35.5L946.7,913.7L946.7,913.7z"/>
+				<path fill="#36343361" id="tenID2" d="M193,467.6c-6.4,0-12.8-1.9-18.5-5.8c-14.8-10.2-18.4-30.4-8.2-45.2c36.8-53.2,60.5-125.9,34.6-161.9c-44.6-62.1-57.1-109.5-12.7-226.4c6.4-16.8,25.1-25.2,41.9-18.8c16.8,6.4,25.2,25.1,18.8,41.9c-37.8,99.5-25.2,123.9,4.7,165.4c48.9,68,12.3,170.1-33.9,236.8C213.4,462.8,203.3,467.6,193,467.6z"/>
+				<path fill="#36343361" id="tenID3" d="M478.6,467.6c-6.4,0-12.8-1.9-18.5-5.8c-14.8-10.2-18.4-30.4-8.2-45.2c36.8-53.2,60.5-125.9,34.6-161.9c-44.6-62.1-57.1-109.5-12.7-226.4c6.4-16.8,25.1-25.2,41.9-18.8c16.8,6.4,25.2,25.1,18.8,41.9c-37.8,99.5-25.2,123.9,4.7,165.4c48.9,68,12.3,170.1-33.9,236.8C499,462.8,488.9,467.6,478.6,467.6z"/>
+				<path fill="#36343361" id="tenID4" d="M755.6,467.6c-6.4,0-12.8-1.9-18.5-5.8c-14.8-10.2-18.4-30.4-8.2-45.2c36.8-53.2,60.5-125.9,34.6-161.9c-44.6-62.1-57.1-109.5-12.7-226.4c6.4-16.8,25.1-25.2,41.9-18.8c16.8,6.4,25.2,25.1,18.8,41.9c-37.8,99.5-25.2,123.9,4.7,165.4c48.9,68,12.3,170.1-33.9,236.8C776,462.8,765.9,467.6,755.6,467.6z"/>
+			</g>
+		</svg>	
+	</div>   
+
+    <div class="box rele p-5" id="text_rel1">REL1</div> 
+    <div class="box rele p-5" id="text_rel2">REL2</div> 
+    <div class="box rele p-5" id="text_rel3">REL3</div>   
+    <div class="box rele p-5" id="text_rel4">REL4</div> 
+    <div class="box rele p-5" id="text_rel5">REL5</div> 
+    <div class="box rele p-5" id="text_rel6">REL6</div>   
+</div>
+
+<div class='card'>
+<!--  --------------------------------------------- 0. CHART TAB ------------------------------------------ -->
+	<input class='hide' type="radio" id="tab-1" name="tractor" checked='checked'/>
+	<label for='tab-1'>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+			<path fill-rule="evenodd" d="M0 0h1v15h15v1H0V0Zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07Z"/>
+		</svg>		
+	</label>
+	<article class='tab-1'>
+		<section style="width:100%;">
+			<div class="grid grid12_5 pt-10">		
+				<select id="selMonth" class="labelText select s12 alignRight rdRight pr-10" style="grid-row:1;z-index: 50;">
+					<option id="m0" value="0">--</option>
+					<option id="m1" value="1">--</option>
+					<option id="m2" value="2">--</option>
+					<option id="m3" value="3">--</option>
+					<option id="m4" value="4">--</option>
+					<option id="m5" value="5">--</option>
+					<option id="m6" value="6">--</option>
+					<option id="m7" value="7">--</option>
+					<option id="m8" value="8">--</option>
+					<option id="m9" value="9">--</option>
+					<option id="m10" value="10">--</option>
+					<option id="m11" value="11">--</option>
+				</select>
+				<div id="graphdiv2" class="s12" style="grid-row:2; height:450px;"></div>
+				
+				<div class="labelText rdLeft s6 alignLeft pl-10" id="text00">--:</div>
+				<input type="text" id="input00" class="rdRight s6 alignRight pr-10">		
+				<div class="labelText rdLeft s6 alignLeft pl-10" id="text01">--:</div>
+				<input type="text" id="input01" class="rdRight s6 alignRight pr-10">	
+				
+				<input type="submit" id="Button11" class="btn rdLR s12" value="--">	
+			</div>	
+		</section>
+	</article>
+	
+<!--  --------------------------------------------- 1. SCHEDULE TAB ------------------------------------------ -->
+	<input class='hide' type="radio" id="tab-2" name="tractor"/>
+	<label for='tab-2'>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-calendar-check" viewBox="0 0 16 16">
+			<path d="M10.854 7.146a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708 0z"/>
+			<path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+		</svg>	
+	</label>	
+	<article class='tab-2'>
+		<section style="width:100%;">
+			<div class="grid grid10_21 pt-10">		
+<!--  --------------------------------------------------------------------------------------- -->	
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text10" style="grid-row:row 0;">--:</div> <!-- РАССВЕТ -->					
+				<input type="time" id="input10" class="s3 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input11" class="s3 rdRight alignRight pr-10" step="1" min="1" placeholder="Длительность[мин]">				
+				
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text11">--:</div> <!-- ЗАКАТ -->	
+				<input type="time" id="input12" class="s3 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input13" class="s3 rdRight alignRight pr-10" step="1" min="1" placeholder="Длительность[мин]">		
+				
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text12">--:</div> <!-- РЕЛЕ 1 -->				
+				<input type="time" id="input14" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input15" tooltip_i="" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">				
+				<input type="number" id="input16" tooltip_d="" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">				
+
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text13">--:</div> <!-- РЕЛЕ 2 -->	
+				<input type="time" id="input17" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input18" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">		
+				<input type="number" id="input19" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">		
+
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text14">--:</div> <!-- РЕЛЕ 3 -->				
+				<input type="time" id="input110" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input111" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">				
+				<input type="number" id="input112" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">				
+
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text15">--:</div> <!-- РЕЛЕ 4 -->	
+				<input type="time" id="input113" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input114" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">		
+				<input type="number" id="input115" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">		
+	
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text16">--:</div> <!-- РЕЛЕ 5 -->					
+				<input type="time" id="input116" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input117" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">				
+				<input type="number" id="input118" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">				
+
+				<div class="labelText rdLeft alignLeft s4 pl-10" id="text17">--:</div> <!-- РЕЛЕ 6 -->	
+				<input type="time" id="input119" class="s2 alignRight" step="1" style="width:100%;">				
+				<input type="number" id="input120" class="s2 alignRight pr-10" step="1" min="1" placeholder="Интервал[мин]">		
+				<input type="number" id="input121" class="rdRight s2 alignRight pr-10" step="1" min="1" placeholder="Длительность[сек]">		
+				
+				<input type="submit" class="btn rdLR s10" id="Button21" value="--">	
+<!--  --------------------------------------------------------------------------------------- -->
+				<div class="labelText alignLeft brd s5 pl-10" id="text18" style="grid-row:row 10;">--:</div>
+				<select id="select_smode0" class="select rdRight s5 alignRight pr-10">
+					<option id="sm00" value="0">--</option>
+					<option id="sm01" value="1">--</option>
+					<option id="sm02" value="2">--</option>
+				</select>
+				<div class="labelText alignLeft brd s5 pl-10" id="text19" style="grid-row:row 11">--:</div>
+				<select id="select_smode1" class="select rdRight s5 alignRight pr-10">
+					<option id="sm10" value="0">--</option>
+					<option id="sm11" value="1">--</option>
+					<option id="sm12" value="2">--</option>
+				</select>
+				<div class="labelText alignLeft brd s5 pl-10" id="text110" style="grid-row:row 12;">--:</div>
+				<select id="select_smode2" class="select rdRight s5 alignRight pr-10">
+					<option id="sm20" value="0">--</option>
+					<option id="sm21" value="1">--</option>
+					<option id="sm22" value="2">--</option>
+				</select>				
+<!--  --------------------------------------------------------------------------------------- -->	
+				<div class="labelText brd alignLeft s3 pl-10" id="text111" style="grid-row:row 13;">--:</div>
+				<select id="select_smode3" class="select s2 alignRight pr-10">
+					<option id="sm30" value="0">--</option>
+					<option id="sm31" value="1">--</option>
+					<option id="sm32" value="2">--</option>
+				</select>
+				<div class="labelText alignLeft brd s3 pl-10" id="text114">--:</div>
+				<select id="select_smode6" class="select rdRight s2 alignRight pr-10">
+					<option id="sm40" value="0">--</option>
+					<option id="sm41" value="1">--</option>
+					<option id="sm42" value="2">--</option>
+				</select>
+<!--  --------------------------------------------------------------------------------------- -->	
+				<div class="labelText alignLeft brd s3 pl-10" id="text112" style="grid-row:row 14;">--:</div>
+				<select id="select_smode4" class="select s2 alignRight pr-10">
+					<option id="sm50" value="0">--</option>
+					<option id="sm51" value="1">--</option>
+					<option id="sm52" value="2">--</option>
+				</select>
+				<div class="labelText alignLeft brd s3 pl-10" id="text115">--:</div>
+				<select id="select_smode7" class="select rdRight s2 alignRight pr-10">
+					<option id="sm60" value="0">--</option>
+					<option id="sm61" value="1">--</option>
+					<option id="sm62" value="2">--</option>
+				</select>
+<!--  --------------------------------------------------------------------------------------- -->					
+				<div class="labelText alignLeft brd s3 pl-10" id="text113" style="grid-row:row 15;">--:</div>
+				<select id="select_smode5" class="select s2 alignRight pr-10">
+					<option id="sm70" value="0">--</option>
+					<option id="sm71" value="1">--</option>
+					<option id="sm72" value="2">--</option>
+				</select>
+				<div class="labelText alignLeft brd s3 pl-10" id="text116">--:</div>
+				<select id="select_smode8" class="select rdRight s2 alignRight pr-10">
+					<option id="sm80" value="0">--</option>
+					<option id="sm81" value="1">--</option>
+					<option id="sm82" value="2">--</option>
+				</select>
+	
+				<input type="submit" class="btn rdLR s10" id="Button22" value="--">				
+			</div>		
+		</section>	
+	</article>
+	
+<!-- ---------------------------------------------- 2. OPTIONS TAB ------------------------------------------ -->	
+	<input class='hide' type="radio" id="tab-3" name="tractor"/>
+	<label for='tab-3'>
+		<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-sliders" viewBox="0 0 16 16">
+			<path fill-rule="evenodd" d="M11.5 2a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM9.05 3a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0V3h9.05zM4.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zM2.05 8a2.5 2.5 0 0 1 4.9 0H16v1H6.95a2.5 2.5 0 0 1-4.9 0H0V8h2.05zm9.45 4a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3zm-2.45 1a2.5 2.5 0 0 1 4.9 0H16v1h-2.05a2.5 2.5 0 0 1-4.9 0H0v-1h9.05z"/>
+		</svg>	
+	</label>
+	<article class='tab-3'>		
+		<section style="width:100%;">
+			<div class="grid grid8_15_1 pt-10">			
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text20">--:</div>
+				<input type="number" id="input20" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text21">--:</div>
+				<input type="number" id="input21" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10 pl-10" id="text22">--:</div>
+				<input type="number" id="input22" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text23">--:</div>
+				
+				<input type="number" id="input23" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text24">--:</div>
+				<input type="number" id="input24" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text25">--:</div>
+				<input type="number" id="input25" class="rdRight s4 alignRight pr-10" step="0.1">
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text26">--:</div>
+				<input type="number" id="input26" class="rdRight s4 alignRight pr-10" step="0.1">
+				
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text27">--:</div>
+				<input type="number" id="input27" class="rdRight s4 alignRight pr-10" step="0.1">
+
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text28" style="grid-row:9/13; grid-column: 1/5;">--:</div>
+				
+				<div class="gridRelay">FAN</div>	
+				<div class="gridRelay">TEN</div>									
+				<div class="gridRelay">REL1</div>	
+				<div class="gridRelay" style="border-radius: 0px 5px 0px 0px;">REL2</div>	
+				<div hidden><input type="number" id="input28"></div>					
+				<input type="checkbox" class="s1" id="input29">
+				<input type="checkbox" class="s1" id="input210">
+				<input type="checkbox" class="s1" id="input211">
+				<input type="checkbox" class="s1" id="input212">		
+
+				<div class="gridRelay">REL3</div>	
+				<div class="gridRelay">REL4</div>									
+				<div class="gridRelay">REL5</div>	
+				<div class="gridRelay">REL6</div>
+				
+				<input type="checkbox" class="s1" id="input213">
+				<input type="checkbox" class="s1" id="input214">
+				<input type="checkbox" class="s1" id="input215">
+				<input type="checkbox" class="s1" id="input216" style="border-radius: 0px 0px 5px 0px;">	
+					
+				<input type="submit" id="Button31" class="btn rdLR s8" value="--">	
+			</div>			
+		</section>
+	</article>
+	
+<!-- --------------------------------------------- 3. MQTT TAB ------------------------------------------ -->	
+	<input class='hide' type="radio" id="tab-4" name="tractor"/>
+	<label for='tab-4'>			
+		<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-cloud" viewBox="0 0 16 16">
+			<path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+		</svg>	
+	</label>
+	<article class='tab-4'>		
+		<section style="width:100%;">
+			<div class="grid grid8_15_2 pt-10">			
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text30">mqtt_server:</div>
+				<input type="text" id="input30" class="rdRight s4 alignRight pr-10" placeholder="MQTT disabled">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text31">mqtt_port:</div>
+				<input type="text" id="input31" class="rdRight s4 alignRight pr-10">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text32">mqtt_ID:</div>
+				<input type="text" id="input32" class="rdRight s4 alignRight pr-10">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text33">mqtt_user:</div>
+				<input type="text" id="input33" class="rdRight s4 alignRight pr-10">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text34">mqtt_password:</div>
+				<input type="text" id="input34" class="rdRight s4 alignRight pr-10">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text35">mqtt_topic ALL:</div>
+				<input type="text" id="input35" class="rdRight s4 alignRight pr-10">		
+
+				<input type="submit" id="Button41" class="btn rdLR s8" value="--">	
+				
+				<div class="notVisible labelText rdLeft s4 alignLeft pl-10" id="text36">mqtt_topic TEMP:</div>
+				<input type="text" id="input36" class="notVisible rdRight s4 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s4 alignLeft pl-10" id="text37">mqtt_topic LED:</div>
+				<input type="text" id="input37" class="notVisible rdRight s4 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s4 alignLeft pl-10" id="text38">mqtt_topic FAN:</div>
+				<input type="text" id="input38" class="notVisible rdRight s4 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s4 alignLeft pl-10" id="text39">mqtt_topic TEN:</div>
+				<input type="text" id="input39" class="notVisible rdRight s4 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s4 alignLeft pl-10" id="text310">mqtt_topic DATE:</div>
+				<input type="text" id="input310" class="notVisible rdRight s4 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s2 alignLeft pl-10" id="text311">mqtt_topic REL1:</div>
+				<input type="text" id="input311" class="notVisible s2 alignRight pr-10">		
+				<div class="notVisible labelText s2 alignLeft pl-10" id="text314">mqtt_topic REL4:</div>
+				<input type="text" id="input314" class="notVisible rdRight s2 alignRight pr-10">		
+				<div class="notVisible labelText rdLeft s2 alignLeft pl-10" id="text312">mqtt_topic REL2:</div>
+				<input type="text" id="input312" class="notVisible s2 alignRight pr-10">		
+				<div class="notVisible labelText s2 alignLeft pl-10" id="text315">mqtt_topic REL5:</div>
+				<input type="text" id="input315" class="notVisible rdRight s2 alignRight pr-10">	
+				<div class="notVisible labelText rdLeft s2 alignLeft pl-10" id="text313">mqtt_topic REL3:</div>
+				<input type="text" id="input313" class="notVisible s2 alignRight pr-10">		
+				<div class="notVisible labelText s2 alignLeft pl-10" id="text316">mqtt_topic REL6:</div>
+				<input type="text" id="input316" class="notVisible rdRight s2 alignRight pr-10">		
+		
+			</div>
+		</section>
+	</article>
+
+<!-- --------------------------------------------- 4. WIFI TAB ------------------------------------------ -->	
+	<input class='hide' type="radio" id="tab-5" name="tractor"/>
+	<label for='tab-5'>			
+		<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" fill="currentColor" class="bi bi-person-gear" viewBox="0 0 16 16">
+			<path d="M11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Zm3.63-4.54c.18-.613 1.048-.613 1.229 0l.043.148a.64.64 0 0 0 .921.382l.136-.074c.561-.306 1.175.308.87.869l-.075.136a.64.64 0 0 0 .382.92l.149.045c.612.18.612 1.048 0 1.229l-.15.043a.64.64 0 0 0-.38.921l.074.136c.305.561-.309 1.175-.87.87l-.136-.075a.64.64 0 0 0-.92.382l-.045.149c-.18.612-1.048.612-1.229 0l-.043-.15a.64.64 0 0 0-.921-.38l-.136.074c-.561.305-1.175-.309-.87-.87l.075-.136a.64.64 0 0 0-.382-.92l-.148-.045c-.613-.18-.613-1.048 0-1.229l.148-.043a.64.64 0 0 0 .382-.921l-.074-.136c-.306-.561.308-1.175.869-.87l.136.075a.64.64 0 0 0 .92-.382l.045-.148ZM14 12.5a1.5 1.5 0 1 0-3 0 1.5 1.5 0 0 0 3 0Z"/>
+		</svg>	
+	</label>
+	<article class='tab-5'>		
+		<section style="width:100%;">
+			<div class="grid grid8_15_2 pt-10">			
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text40" style="grid-row:row;">--:</div>
+				<input type="date" id="input40" class="rdRight s4 alignRight" style="grid-row:row;width:100%;">		
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text41" style="grid-row:row 2;">--:</div>
+				<input type="time" id="input41" class="rdRight s4 alignRight" style="grid-row:row 2;width:100%;">						
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text42" style="grid-row:row 3;">--[GMT+]:</div>
+				<input type="text" id="input42" class="rdRight s4 alignRight pr-10" style="grid-row:row 3;" placeholder="час пояс GMT+">	
+				
+				<input type="submit" id="Button51" class="btn rdLeft s4" style="grid-row:row 4;" value="--">	
+				<input type="submit" id="Button52" class="btn rdRight s4" value="--">					
+
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text43" style="grid-row:row 5;">--:</div>
+				<input type="text" id="input43" class="s2 alignRight pr-10" placeholder="SSID ТД">		
+				<input type="password" id="input44" class="rdRight s2 alignRight pr-10" placeholder="Пароль ТД">	
+
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text44" style="grid-row:row 6;">--:</div>
+				<input type="text" id="input45" class="s2 alignRight pr-10" placeholder="SSID">		
+				<input type="password" id="input46" class="rdRight s2 alignRight pr-10" placeholder="Пароль">			
+
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text45" style="grid-row:row 7;">--:</div>
+				<input type="text" id="input47" class="s2 alignRight pr-10" placeholder="IP-адрес">		
+				<input type="text" id="input48" class="rdRight s2 alignRight pr-10" placeholder="IP-Шлюз">	
+
+				<div class="labelText rdLeft s4 alignLeft pl-10" id="text46" style="grid-row:row 8;">--:</div>
+				<input type="text" id="input49" class="rdRight s4 alignRight pr-10" placeholder="Номер порта">
+
+				<input type="submit" id="Button53" class="btn rdLR s8" value="--">	
+
+				<form name="update" action="/update" id="updateForm" onsubmit="return checkForm(this);" method="POST" enctype="multipart/form-data">
+					<div class="labelText rdLeft s4 alignLeft pl-10" id="text47" style="grid-row:row 10;">--:</div>	
+					
+					<label for="myfile" id="uploadLabel" class="s2 alignCenter" style="grid-row:row 10;font-size:18px;"></label> 
+					<input type="file" accept=".bin" name="myfile" id="myfile" style="display:none;" value="--">	
+					
+					<input type="submit" id="Button55" name="uploadFile" class="btn rdRight s2" style="grid-row:row 10;" value="--">						
+				</form>	
+			
+			
+				<input type="submit" id="Button56" class="btn rdLR s8" style="grid-row:row 11;" value="--">
+			</div>		
+		</section>
+	</article>
+	
+
+<div id="opacity_all" style="margin:0; padding:0; top:0; left:0; position: absolute; z-index:60; width:600px; height:100%;background:gray; opacity:0.75;" hidden>
+</div>
+<div id="uploadPanel" style="margin:0; padding:0; top:330px; left:0; position: absolute; z-index:70; width:600px;" hidden>
+	<div id="Progress_Status">
+		<div id="myprogressBar">1%</div>
+	</div>
+</div>
+</body>
+</html>
+
+

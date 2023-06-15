@@ -1,0 +1,14 @@
+{
+"text": [
+["Smooth [0.0~4.0]:", "right Gap [0~100]:"], 
+["Sunrise","Sunset","Relay1","Relay2","Relay3","Relay4","Relay5","Relay6","Led:","FAN:","TEN:","Relay №1:","Relay №2:","Relay №3:","Relay №4:","Relay №5:","Relay №6:"], 
+["Temperature correction:","Max bright:","Min bright:","Fan setPoint:", "Fan Hysteresis:","Heater setPoint:", "Heater Hysteresis:","Bright delay:", "Inverse output:"], 
+["mqtt_server*:","mqtt_port*:","mqtt_ID*:","mqtt_user:","mqtt_password:","topic_all*:","topic_temp:","topic_led:","topic_fan:","topic_ten:","topic_date:","topic_rel1:","topic_rel2:","topic_rel3:","topic_rel4:","topic_rel5:","topic_rel6:"],
+["Date:","Time:","Timezone [GMT+]:","AP name:","Connect to WIFI:","IP-address / Gateway","Port:","Update:"] 
+],
+"popup":["Restart ESP8266-12E?", "Reboot is required", "Reset restart count?"],
+"but": ["Wait...", "Successful", "Error", "Repeat", "Manual enter", "Autosync", "Save", "Open", "Upload", "Restart controller"],
+"s_mode": ["Auto", "On", "Off"],
+"mes": ["--°C", "RTC ERROR"]
+}
+    
