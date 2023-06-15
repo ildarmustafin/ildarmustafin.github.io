@@ -775,7 +775,7 @@ window.onerror = function(message, url, lineNumber) {
 window.onload = function() {
 	openValues(0);		
 	init();	
-	//getJson(test_json);
+	getJson(test_json);
 	getCountSec();
     setInterval(function () { getCountSec();}, 1000);	
 }
