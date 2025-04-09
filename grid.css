@@ -1,3 +1,5 @@
+
+
 input::placeholder {
   transition: 0.5s; /* Время трансформации */
   color: #aaa; /* Цвет подсказки */
@@ -94,15 +96,19 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 	grid-template-columns: repeat(12, [col] 50px);
 	grid-template-rows: 50px 450px 50px 50px 50px 50px;
 }
+.grid12_20 {
+	grid-template-columns: repeat(12, [col] 50px);
+	grid-template-rows: repeat(20, [row] 50px);
+}
 .grid10_21 {
 	grid-template-columns: repeat(10, [col] 60px);
 	grid-template-rows: repeat(21, [row] 50px);
 }
-.grid8_15_1 {
+.grid8_20_1 {
 	grid-template-columns: repeat(8, [col] 75px);
-	grid-template-rows: repeat(8, [row] 50px) 35px 25px 35px 25px  repeat(3, [row] 50px);
+	grid-template-rows: repeat(12, [row] 50px) 35px 25px 35px 25px  repeat(3, [row] 50px);
 }
-.grid8_15_2 {
+.grid8_20_2 {
 	grid-template-columns: repeat(8, [col] 75px);
 	grid-template-rows: repeat(15, [row] 50px);
 }
