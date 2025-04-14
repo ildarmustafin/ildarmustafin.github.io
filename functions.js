@@ -334,30 +334,42 @@ if (!!window.EventSource) {
 	}, false); 
 }
 const openlang = async (cfgLang, countTry) => {
-	try {
+	//try {
 		let url = (cfgLang == 0) ? 'RUS.json' : 'ENG.json';
-		let response = await fetch(url);
+		let response = await fetch(url);	
 		if (!response.ok)			
 			throw new Error(JSON.stringify({ procedure: "openlang", code: response.status, message: response.statusText}));
 		
-		let configLang = await response.json();
-		for (let i = 0; i <= 11; i++){
+ 		let configLang = await response.json();
+/*		for (let i = 0; i <= 11; i++){
 			document.getElementById("m" + i).text = selectLang[cfgLang][i];
-		}		
+		}	 */	
 		
-		for (let j = 0; j <= 8; j++) { //Загрузка Авто Вкл Выкл
+/* 		for (let j = 0; j <= 8; j++) { //Загрузка Авто Вкл Выкл
 			for (let i in configLang.s_mode) {
 				document.getElementById("sm"+j+i).innerText = configLang.s_mode[i]; 
 			}
-		}
-		
-		for (let i = 0; i <= 4; i++) { //Загрузка всех text	
-		//for (let i = 1; i <= 4; i++) { //Загрузка всех text
+		} */
+		// ТАБ 2
+		for (let i = 1; i <= 6; i++) { 
+			for (let j = 0; j <= 5; j++)  { 
+				document.getElementById('text1'+i+j).innerText = configLang.text[1][i+5]; //Загрузка text Рассвет закат длит мин ярк макс ярк
+				document.getElementById('text1'+j).innerText = configLang.text[1][j];     //Загрузка text PWM 1 2 3 4 5 6 
+			}
+		} 	
+		// ТАБ 3		
+		for (let i = 1; i <= 3; i++) { 
+			for (let j = 0; j <= 5; j++)  { 
+				document.getElementById('text2'+i+j).innerText = configLang.text[2][i+5]; //Загрузка textинтервакл длит
+				document.getElementById('text2'+j).innerText = configLang.text[2][j];     //Загрузка text Реле 1 2 3 4 5 6 
+			}
+		} 
+/* 		for (let i = 0; i <= 1; i++) { //Загрузка всех text	
 			for (let j in configLang.text[i])  { 
 				document.getElementById('text'+i+j).innerText = configLang.text[i][j]; 
 			}
-		}
-		for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
+		} */
+/* 		for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
 		for (let i in configLang.but) { but[i] = configLang.but[i]; } //Сообщения кнопок
 		for (let i in configLang.mes) { mes[i] = configLang.mes[i]; } //Сообщения ошибок
 		
@@ -374,9 +386,9 @@ const openlang = async (cfgLang, countTry) => {
 		document.getElementById("Button53").value = but[6]; //Сохранить		
 		document.getElementById("uploadLabel").innerHTML = but[7]; //Открыть
 		document.getElementById("Button55").value = but[8]; //Загрузить
-		document.getElementById("Button56").value = but[9]; //Перезагрузить	
+		document.getElementById("Button56").value = but[9]; //Перезагрузить	 */
 		ShowErrorMessage("openlang", "[OK]");	
-	} catch(error) {	
+/* 	} catch(error) {	
 		if (countTry >= funcTry)
 			return;
 		countTry += 1;
@@ -384,11 +396,11 @@ const openlang = async (cfgLang, countTry) => {
 		log('red', "["+ error.name +" "+ jsonParsed.code +"]", json.now.replace("T", " "), "\""+ jsonParsed.procedure+ "\" with error: "+ jsonParsed.message +". Try: " +countTry);	
 		await new Promise((resolve, reject) => setTimeout(resolve, 2000));			
 		openlang(cfgLang, countTry);		
-	}	
+	}	 */
 }
 const openValues = async (countTry) => {
 	let url = 'configSetup.json';
-	try {	
+	//try {	
 		let response = await fetch(url);
 		if (!response.ok)		
 			throw new Error(JSON.stringify({ procedure: "openValues", code: response.status, message: response.statusText }));
@@ -408,19 +420,20 @@ const openValues = async (countTry) => {
 		//for (let i = 1; i <= 4; i++) { //Все инпуты
 		for (let i = 0; i <= 4; i++) { //Все инпуты
 			for (let j in configSetup.input[i]) { 
-				document.getElementById('input'+i+j).value = configSetup.input[i][j]; 
+				//document.getElementById('input'+i+j).value = configSetup.input[i][j]; 
 			}
 		}
 		document.getElementById('input00').value = configSetup.input[0][0] / 10; //повторно читаем значения сглаживания и переводим во float
 		smoothChart = document.getElementById('input00').value;
 		rightGapChart = document.getElementById('input01').value;
 		let powA = 3;
+		
 		for (let i = 0; i <= 8; i++) { //Загрузка режимов реле Выкл Вкл Авто
 			document.getElementById('select_smode' + i).options.selectedIndex = parseInt((configSetup.s_mode & powA) >> (i*2), 10) - 1;
 			powA = powA * 4 + 3;
 		}
-		
-		document.getElementById('input20').value = configSetup.input[2][0] / 10; 
+/* 		
+		document.getElementById('input212').value = configSetup.input[2][12] / 10; 
 		for (let i = 13; i <= 16; i++) { //повторно читаем значения гистерезиса и переводим во float
 			document.getElementById('input2' + i).value = configSetup.input[2][i] / 100; 
 		}		
@@ -448,8 +461,8 @@ const openValues = async (countTry) => {
 		document.getElementById("ttip_temp").setAttribute('tooltip_temp', ttip_temp);
 		document.getElementById("ttip_led").setAttribute('tooltip_led', ttip_led);
 		document.getElementById("ttip_fan").setAttribute('tooltip_fan', ttip_fan);
-		document.getElementById("ttip_ten").setAttribute('tooltip_ten', ttip_ten);	
-	} catch(error) {
+		document.getElementById("ttip_ten").setAttribute('tooltip_ten', ttip_ten);	 */
+/* 	} catch(error) {
 		if (countTry >= funcTry)
 			return;
 		countTry += 1;
@@ -457,7 +470,7 @@ const openValues = async (countTry) => {
 		log('red', "["+ error.name +" "+ jsonParsed.code +"]", json.now.replace("T", " "), "\""+ jsonParsed.procedure+ "\" with error: "+ jsonParsed.message +". Try: " +countTry);	
 		await new Promise((resolve, reject) => setTimeout(resolve, 2000));			
 		openValues(countTry);		
-	}
+	} */
 }		
 //openValues().catch(error => { error.message; });	
 const openInitialGraph = () => {
@@ -716,7 +729,7 @@ const init = () => {
 			jsonData = 'input[0][0]=' + document.getElementById('input00').value + '&input[0][1]=' + document.getElementById('input01').value;
 		ButtonClick(btn11, "get", 'smooth?'+jsonData, but[6], undefined, 1); 		
 	});
-	btn21.addEventListener("click", function(event){ 
+/* 	btn21.addEventListener("click", function(event){ 
 		let jsonData = '';
 		event.preventDefault(); 
 		for (let i = 0; i <= 41; i++) {
@@ -732,7 +745,7 @@ const init = () => {
 			//console.log(`${i} | value: ${document.getElementById("select_smode" + i).options.selectedIndex} s_mode: ${s_mode} ${s_mode.toString(2)}`);
 		}
 		ButtonClick(btn22, "get", 's_mode?s_mode='+s_mode, but[6], undefined, 1); 
-	});	
+	});	 */
 	btn31.addEventListener("click", function(event){ 
 		event.preventDefault(); 
 		let jsonData = '';
@@ -758,14 +771,14 @@ const init = () => {
 		//console.log(`INV: ${chk.toString(2)}`);
 		ButtonClick(btn31, "get", 'save?'+jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
 	});	
-	btn41.addEventListener("click", function(event){ 
-		let jsonData = '';
-		event.preventDefault(); 
-		for (let i = 0; i <= 16; i++) {
-			jsonData += 'input[3]['+i+']='+document.getElementById('input3'+i).value+'&';
-		}
-		ButtonClick(btn41, "get", 'mqtt?'+jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
-	});	
+	// btn41.addEventListener("click", function(event){ 
+		// let jsonData = '';
+		// event.preventDefault(); 
+		// for (let i = 0; i <= 16; i++) {
+			// jsonData += 'input[3]['+i+']='+document.getElementById('input3'+i).value+'&';
+		// }
+		// ButtonClick(btn41, "get", 'mqtt?'+jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
+	// });	
 	btn51.addEventListener("click", function(event){ 
 		let jsonData = '';
 		event.preventDefault(); 
@@ -813,7 +826,7 @@ window.onerror = function(message, url, lineNumber) {
 window.onload = function() {
 	openValues(0);		
 	init();	
-	//getJson(test_json);
+	getJson(test_json);
 	getCountSec();
     setInterval(function () { getCountSec();}, 1000);	
 }
