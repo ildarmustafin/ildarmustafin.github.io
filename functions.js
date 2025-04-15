@@ -341,34 +341,44 @@ const openlang = async (cfgLang, countTry) => {
 			throw new Error(JSON.stringify({ procedure: "openlang", code: response.status, message: response.statusText}));
 		
  		let configLang = await response.json();
-/*		for (let i = 0; i <= 11; i++){
+		// ТАБ 0
+		document.getElementById('text00').innerText = configLang.text[0][0]; //Сглаживание	
+		document.getElementById('text01').innerText = configLang.text[0][1]; //Смещение	
+		// ТАБ 1 загрузка месяцев
+		for (let i = 0; i <= 11; i++){
 			document.getElementById("m" + i).text = selectLang[cfgLang][i];
-		}	 */	
-		
-/* 		for (let j = 0; j <= 8; j++) { //Загрузка Авто Вкл Выкл
+		}		
+		// Загрузка Авто Вкл Выкл
+		for (let j = 0; j <= 3; j++) {
 			for (let i in configLang.s_mode) {
 				document.getElementById("sm"+j+i).innerText = configLang.s_mode[i]; 
 			}
-		} */
+		}
 		// ТАБ 2
-		for (let i = 1; i <= 6; i++) { 
-			for (let j = 0; j <= 5; j++)  { 
+		for (let j = 0; j <= 5; j++)  { 
+			for (let i = 1; i <= 6; i++) { 
 				document.getElementById('text1'+i+j).innerText = configLang.text[1][i+5]; //Загрузка text Рассвет закат длит мин ярк макс ярк
 				document.getElementById('text1'+j).innerText = configLang.text[1][j];     //Загрузка text PWM 1 2 3 4 5 6 
 			}
-		} 	
-		// ТАБ 3		
-		for (let i = 1; i <= 3; i++) { 
-			for (let j = 0; j <= 5; j++)  { 
+			// ТАБ 3		
+			for (let i = 1; i <= 3; i++) { 
+
 				document.getElementById('text2'+i+j).innerText = configLang.text[2][i+5]; //Загрузка textинтервакл длит
 				document.getElementById('text2'+j).innerText = configLang.text[2][j];     //Загрузка text Реле 1 2 3 4 5 6 
 			}
 		} 
-/* 		for (let i = 0; i <= 1; i++) { //Загрузка всех text	
-			for (let j in configLang.text[i])  { 
-				document.getElementById('text'+i+j).innerText = configLang.text[i][j]; 
-			}
-		} */
+		document.getElementById('text16').innerText = configLang.text[1][12]; //Режим всех ШИМ		
+		
+		document.getElementById('text26').innerText = configLang.text[2][9]; //Режим всех Реле
+		document.getElementById('text27').innerText = configLang.text[2][10]; //Инверсия Реле		
+		// ТАБ 4
+		for (let i = 0; i <= 11; i++) { 
+			document.getElementById('text3'+i).innerText = configLang.text[3][i];
+		}
+		// ТАБ 5
+		for (let i = 0; i <= 7; i++) { 
+			document.getElementById('text4'+i).innerText = configLang.text[4][i];
+		}
 /* 		for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
 		for (let i in configLang.but) { but[i] = configLang.but[i]; } //Сообщения кнопок
 		for (let i in configLang.mes) { mes[i] = configLang.mes[i]; } //Сообщения ошибок
@@ -417,10 +427,9 @@ const openValues = async (countTry) => {
 		await openlang(configSetup.defaultLang, 0);
 		
 		rst_count = configSetup.restart;
-		//for (let i = 1; i <= 4; i++) { //Все инпуты
 		for (let i = 0; i <= 4; i++) { //Все инпуты
 			for (let j in configSetup.input[i]) { 
-				//document.getElementById('input'+i+j).value = configSetup.input[i][j]; 
+				document.getElementById('input'+i+j).value = configSetup.input[i][j]; 
 			}
 		}
 		document.getElementById('input00').value = configSetup.input[0][0] / 10; //повторно читаем значения сглаживания и переводим во float
@@ -428,7 +437,7 @@ const openValues = async (countTry) => {
 		rightGapChart = document.getElementById('input01').value;
 		let powA = 3;
 		
-		for (let i = 0; i <= 8; i++) { //Загрузка режимов реле Выкл Вкл Авто
+		for (let i = 0; i <= 3; i++) { //Загрузка режимов реле Выкл Вкл Авто
 			document.getElementById('select_smode' + i).options.selectedIndex = parseInt((configSetup.s_mode & powA) >> (i*2), 10) - 1;
 			powA = powA * 4 + 3;
 		}
