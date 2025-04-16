@@ -1,5 +1,3 @@
-
-
 input::placeholder {
   transition: 0.5s; /* Время трансформации */
   color: #aaa; /* Цвет подсказки */
@@ -66,13 +64,19 @@ input:focus::placeholder {
 .notVisible {
   visibility: hidden;
 }
-input {font-size:18px;display:flex;align-items: center;justify-content: right;text-align:right;	border:0.2px solid #36343361;}
+input {
+	font-size:18px;
+	display:flex;
+	align-items: center;
+	justify-content: right;
+	text-align:right;	
+	border:0.2px solid #36343361;
+}
 
 input[type=submit]:hover {background-color:black;}
 input[type=submit], #rst_c {cursor: pointer;}
 input[type=date], input[type=time] {
-	background-color:white; 
-	width:99%;
+	background-color:white; 	
 }
 #Button01, #Button02 {cursor: pointer;}
 .select {
