@@ -109,9 +109,9 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 	grid-template-columns: repeat(12, [col] 50px);
 	grid-template-rows: repeat(22, [row] 50px);
 }
-.grid12_20_rel {
+.grid12_25_rel {
 	grid-template-columns: repeat(12, [col] 50px);
-	grid-template-rows: repeat(19, [row] 50px) 35px 25px 35px 25px  repeat(3, [row] 50px);
+	grid-template-rows: repeat(19, [row] 50px) 35px 25px repeat(2, [row] 50px);
 }
 
 .grid12_20_opt {

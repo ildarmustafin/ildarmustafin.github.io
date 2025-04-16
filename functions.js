@@ -379,7 +379,7 @@ const openlang = async (cfgLang, countTry) => {
 		for (let i = 0; i <= 7; i++) { 
 			document.getElementById('text4'+i).innerText = configLang.text[4][i];
 		}
-/* 		for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
+ 		//for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
 		for (let i in configLang.but) { but[i] = configLang.but[i]; } //Сообщения кнопок
 		for (let i in configLang.mes) { mes[i] = configLang.mes[i]; } //Сообщения ошибок
 		
@@ -387,8 +387,7 @@ const openlang = async (cfgLang, countTry) => {
 		resetCountMessage = configLang.popup[2];//Сбросить счетчик перезагрузок?
 		
 		document.getElementById("Button11").value = but[6]; //Сохранить
-		document.getElementById("Button21").value = but[6]; //Сохранить
-		document.getElementById("Button22").value = but[6]; //Сохранить			
+		document.getElementById("Button21").value = but[6]; //Сохранить		
 		document.getElementById("Button31").value = but[6]; //Сохранить
 		document.getElementById("Button41").value = but[6]; //Сохранить			
 		document.getElementById("Button51").value = but[4]; //Ручной ввод даты			
@@ -396,7 +395,7 @@ const openlang = async (cfgLang, countTry) => {
 		document.getElementById("Button53").value = but[6]; //Сохранить		
 		document.getElementById("uploadLabel").innerHTML = but[7]; //Открыть
 		document.getElementById("Button55").value = but[8]; //Загрузить
-		document.getElementById("Button56").value = but[9]; //Перезагрузить	 */
+		document.getElementById("Button56").value = but[9]; //Перезагрузить	
 		ShowErrorMessage("openlang", "[OK]");	
 /* 	} catch(error) {	
 		if (countTry >= funcTry)
@@ -441,19 +440,19 @@ const openValues = async (countTry) => {
 			document.getElementById('select_smode' + i).options.selectedIndex = parseInt((configSetup.s_mode & powA) >> (i*2), 10) - 1;
 			powA = powA * 4 + 3;
 		}
-/* 		
-		document.getElementById('input212').value = configSetup.input[2][12] / 10; 
-		for (let i = 13; i <= 16; i++) { //повторно читаем значения гистерезиса и переводим во float
-			document.getElementById('input2' + i).value = configSetup.input[2][i] / 100; 
+ 		
+		document.getElementById('input30').value = configSetup.input[3][0] / 10; //Поправка температуры / 10
+		for (let i = 2; i <= 5; i++) { //повторно читаем значения гистерезиса и переводим во float
+			document.getElementById('input3' + i).value = configSetup.input[3][i] / 100; 
 		}		
 		
 		let powC = 1;
 		for (let i = 9; i <= 16; i++) { //Чтение checkbox
-			document.getElementById('input2' + i).checked = parseInt((document.getElementById('input218').value & powC) >> (i - 9), 10); 
+		//	document.getElementById('input2' + i).checked = parseInt((document.getElementById('input218').value & powC) >> (i - 9), 10); 
 			//console.log(powC + " | " + parseInt((document.getElementById('input218').value & powC) >> (i - 9), 10));
 			powC += powC;
 		}
-		let fan_on  = parseFloat(configSetup.input[2][3]/100 + (configSetup.input[2][4] / 200)).toFixed(1);
+/* 		let fan_on  = parseFloat(configSetup.input[2][3]/100 + (configSetup.input[2][4] / 200)).toFixed(1);
 		let fan_off = parseFloat(configSetup.input[2][3]/100 - (configSetup.input[2][4] / 200)).toFixed(1);
 		let ten_off  = parseFloat(configSetup.input[2][5]/100 + (configSetup.input[2][6] / 200)).toFixed(1);
 		let ten_on = parseFloat(configSetup.input[2][5]/100 - (configSetup.input[2][6] / 200)).toFixed(1);
@@ -464,13 +463,14 @@ const openValues = async (countTry) => {
 		let ttip_fan = 'ON : '+ parseFloat(fan_on).toFixed(2) +' °C ' + ' ' + 'OFF: '+ parseFloat(fan_off).toFixed(2) +' °C';
 		let ttip_ten = 'OFF: '+ parseFloat(ten_off).toFixed(2) +' °C ' + ' ' + 'ON : '+ parseFloat(ten_on).toFixed(2) +' °C';
 		let ttip_rel1 = 'ON : ' + ttip_rel[0] + ' ' + 'OFF: ' + ttip_rel[1];
-		let ttip_rel2 = 'ON : ' + ttip_rel[2] + ' ' + 'OFF: ' + ttip_rel[3];
+		let ttip_rel2 = 'ON : ' + ttip_rel[2] + ' ' + 'OFF: ' + ttip_rel[3]; 
 
 		document.getElementById("ttip_wifi").setAttribute('tooltip_wifi', ttip_wifi);
 		document.getElementById("ttip_temp").setAttribute('tooltip_temp', ttip_temp);
 		document.getElementById("ttip_led").setAttribute('tooltip_led', ttip_led);
 		document.getElementById("ttip_fan").setAttribute('tooltip_fan', ttip_fan);
-		document.getElementById("ttip_ten").setAttribute('tooltip_ten', ttip_ten);	 */
+		document.getElementById("ttip_ten").setAttribute('tooltip_ten', ttip_ten);
+*/		
 /* 	} catch(error) {
 		if (countTry >= funcTry)
 			return;
