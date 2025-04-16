@@ -132,7 +132,7 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 
 .alignCenter {display:flex;align-items: center;justify-content: center;text-align:center;}
 .alignLeft {display:flex;align-items: center;justify-content: left;text-align:left;}
-.alignRight {display:flex;align-items: center;justify-content: right;text-align:right;}
+.alignRight {text-align:right;}
 
 .js {
 	justify-self: stretch;
