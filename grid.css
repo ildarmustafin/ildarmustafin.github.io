@@ -79,7 +79,7 @@ input[type=submit]:hover {background-color:black;}
 input[type=submit], #rst_c {cursor: pointer;}
 input[type=date], input[type=time] {
 	background-color:white;
-	width:100&;
+	width:100%;
 }
 #Button01, #Button02 {cursor: pointer;}
 .select {
