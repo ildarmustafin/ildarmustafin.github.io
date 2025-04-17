@@ -71,6 +71,7 @@ input {
 	justify-content: right;
 	text-align:right;	
 	border:0.2px solid #36343361;
+	max-width:100%;
 }
 
 input[type=submit]:hover {background-color:black;}
