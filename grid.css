@@ -187,6 +187,9 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 	font-size:18px;
 	border:0.2px solid #36343361;
 	background-color: #E9ECEF;
+	display:flex;
+	align-items: center;
+	justify-content: left;
 	text-align:left;
 	padding-left:10px;	
 }
