@@ -9,7 +9,6 @@ input:focus::placeholder {
 }
 
 #er_mes {
-
 	position: absolute;
 	color: yellow;	
 	background-color:black;	
@@ -22,7 +21,6 @@ input:focus::placeholder {
 	display:inline;	
 	float:left;
 	width:130px;  
-
 }
 #er_mes2 { 
 	width:80px;  
@@ -65,23 +63,37 @@ input:focus::placeholder {
   visibility: hidden;
 }
 input {
-	font-size:18px;
-	display:flex;
+	font-size:17px;
 	align-items:center;
 	justify-content:right;
 	text-align:right;	
 	border:0.2px solid #36343361;
 	max-width:100%;
 }
+#text_pwm1, #text_pwm2, #text_pwm3, #text_pwm4, #text_pwm5, #text_pwm6 {
+	border:0px;	
+	background-color: #3370B7;
+	text-align:center;
+	color:white;
+}
 
 input[type=submit]:hover {background-color:black;}
 input[type=submit], #rst_c {cursor: pointer;}
-input[type=date], input[type=time] {
+
+.without_ampm::-webkit-datetime-edit-ampm-field {
+   display: none;
+ }
+ input[type=date], input[type=time]::-webkit-clear-button {
+   -webkit-appearance: none;
+   -moz-appearance: none;
+   -o-appearance: none;
+   -ms-appearance:none;
+   appearance: none;
 	background-color:white;
 	width:100%;
-}
+ }
 input[type=number], input[type=text], input[type=password]  {
-	padding-right:10px;
+	//padding-right:10px;
 }
 #Button01, #Button02 {cursor: pointer;}
 .select {
@@ -98,12 +110,55 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 
 .wrapper {
 	display: grid;
-	width:600px;border-radius: 10px;
+	width:600px;
+	color: white;
+	text-align:center;
+	border-radius: 10px;
 	grid-template-columns: repeat(12, [col] 50px);
-	grid-template-rows: repeat(3, [row] auto);
+	grid-template-rows: 35px  60px 60px 35px;
 	background-color: #3370B7;
 	padding-top:5px;
 }
+.h-50 {
+	height:50%;	
+}
+.h-100 {
+	height:100%;	
+}
+.w-100{
+	width: 100%;
+}
+.datchiki {
+	border:1px solid white;
+	color:white;
+}
+.editText {
+	font-size:18px;
+	border:0.2px solid #36343361;
+	background-color: #E9ECEF;
+	display:flex;
+	align-items: center;
+	justify-content: left;
+	text-align:left;		
+}
+textarea { 
+	resize: none;
+	padding-left:10px;
+}
+.editOn {
+	background-color: yellow;
+}
+.editOff {
+	background-color: #3370B7;	
+}
+
+.verA {
+	font-size:12px;
+	font-weight:bold;
+	color:white;
+	text-align:left;
+}
+
 .grid {
 	display: grid;
 	width:600px;
@@ -128,7 +183,7 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 
 .grid12_20_opt {
 	grid-template-columns: repeat(12, [col] 50px);
-	grid-template-rows: repeat(8, [row] 50px) 35px 25px repeat(3, [row] 50px);
+	grid-template-rows: repeat(8, [row] 50px) 35px 25px repeat(10, [row] 50px);
 }
 .grid12_20_wifi {
 	grid-template-columns: repeat(12, [col] 50px);
@@ -150,6 +205,7 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 .pl-10 {padding-left:10px;}
 .pr-10 {padding-right:10px;}
 .pt-10 {padding-top:10px;}
+.pt-5 {padding-top:5px;}
 
 .s1 {grid-column:span 1;}
 .s2 {grid-column:span 2;}
@@ -243,57 +299,6 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 }
 .rdLR {
 	border-radius: 5px;
-}
-
-.ver {
-	grid-column: span 2;
-	grid-row: row;
-}
-.verA {
-	grid-column: span 1;
-	grid-row: row;
-	font-size:12px;
-	font-weight:bold;
-	color:white;
-	text-align:left;
-}
-.time {
-	grid-column: span 7;
-	grid-row: row;
-}
-.wifi {
-	grid-column: span 1;
-	grid-row: row;
-}
-.lang {
-	grid-column: span 2;
-	grid-row: row;
-}
-.datchiki {
-	grid-column: span 3;
-	grid-row: row 2;
-	border-radius: 0px;
-	border:1px solid white;
-}
-.datchikiA {
-	grid-column: span 1;
-	grid-row: row;
-	border-radius: 0px;
-}
-.pwm {
-	grid-column: span 2;
-	grid-row: row 3;
-	border:1px solid white;
-}
-.rele {
-	grid-column: span 2;
-	grid-row: row 4;
-	border:1px solid white;
-}
-.box {
-	color: white;
-	//border-radius: 10px;
-	text-align:center;
 }
 .card {
 	display: grid;
