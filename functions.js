@@ -37,6 +37,9 @@ let rightGapChart = 5;
 let g;
 let inputIdPrevValue = 0;
 let rgb_pwm = [];
+let configLang = "";
+let configSetup = "";
+
 
 const makeColor = async (num,fcolor) => {
 	document.getElementById("text_pwm"+num).style.background = fcolor;	
@@ -340,7 +343,7 @@ const openlang = async (cfgLang, countTry) => {
 		if (!response.ok)			
 			throw new Error(JSON.stringify({ procedure: "openlang", code: response.status, message: response.statusText}));
 		
- 		let configLang = await response.json();
+ 		configLang = await response.json();
 		// DASHBOARD
 		for (let i = 1; i <= 6; i++){
 			document.getElementById("text_pwm" + i).value = configLang.pwm[i-1];
@@ -351,7 +354,7 @@ const openlang = async (cfgLang, countTry) => {
 		document.getElementById('text00').value = configLang.text[0][0]; //Сглаживание	
 		document.getElementById('text01').value = configLang.text[0][1]; //Смещение	
 		
-		// ТАБ 1 загрузка месяцев
+		// Загрузка месяцев
 		for (let i = 0; i <= 11; i++){
 			document.getElementById("m" + i).text = selectLang[cfgLang][i];
 		}		
@@ -363,36 +366,36 @@ const openlang = async (cfgLang, countTry) => {
 			}
 		}
 		
-		// ТАБ 2 ВКЛАДКА НАСТРОЕК PWM
+		// ТАБ 1 ВКЛАДКА НАСТРОЕК PWM
 		for (let j = 0; j <= 5; j++)  { 
 			for (let i = 1; i <= 6; i++) { 
 				document.getElementById('text1'+i+j).value = configLang.text[1][i+5]; //Загрузка text Рассвет закат длит мин ярк макс ярк
 				document.getElementById('text1'+j).value = configLang.text[1][j];     //Загрузка text PWM 1 2 3 4 5 6 
 			}
 			
-			// ТАБ 3 ВКЛАДКА НАСТРОЕК РЕЛЕ		
+			// ТАБ 2 ВКЛАДКА НАСТРОЕК РЕЛЕ		
 			for (let i = 1; i <= 3; i++) { 
 
-				document.getElementById('text2'+i+j).innerText = configLang.text[2][i+5]; //Загрузка textинтервакл длит
-				document.getElementById('text2'+j).innerText = configLang.text[2][j];     //Загрузка text Реле 1 2 3 4 5 6 
+				document.getElementById('text2'+i+j).value = configLang.text[2][i+5]; //Загрузка textинтервакл длит
+				document.getElementById('text2'+j).value = configLang.text[2][j];     //Загрузка text Реле 1 2 3 4 5 6 
 			}
 		} 
 		document.getElementById('text16').value = configLang.text[1][12]; //Режим всех ШИМ		
 		
-		document.getElementById('text26').innerText = configLang.text[2][9]; //Режим всех Реле
-		document.getElementById('text27').innerText = configLang.text[2][10]; //Инверсия Реле		
+		document.getElementById('text26').value = configLang.text[2][9]; //Режим всех Реле
+		document.getElementById('text27').value = configLang.text[2][10]; //Инверсия Реле		
 		
-		// ТАБ 4 ВКЛАДКА ОБЩИХ НАСТРОЕК
+		// ТАБ 3 ВКЛАДКА ОБЩИХ НАСТРОЕК
 		for (let i = 0; i <= 15; i++) { 
-			document.getElementById('text3'+i).innerText = configLang.text[3][i];
+			document.getElementById('text3'+i).value = configLang.text[3][i];
 		}
 		for (let i in configLang.tab) {
-			document.getElementById("tab"+i).innerText = configLang.tab[i]; 
+			document.getElementById("tab"+i).value = configLang.tab[i]; 
 		}
 			
-		// ТАБ 5 ВКЛАДКА НАСТРЕК WIFI
+		// ТАБ 4 ВКЛАДКА НАСТРЕК WIFI
 		for (let i = 0; i <= 7; i++) { 
-			document.getElementById('text4'+i).innerText = configLang.text[4][i];
+			document.getElementById('text4'+i).value = configLang.text[4][i];
 		}
  		
 		//for (let i = 3; i <= 9; i++) {document.getElementById('input3'+i).title = configLang.popup[1];} //Требуется перезагрузка
@@ -432,7 +435,7 @@ const openValues = async (countTry) => {
 		let response = await fetch(url);
 		if (!response.ok)		
 			throw new Error(JSON.stringify({ procedure: "openValues", code: response.status, message: response.statusText }));
-		let configSetup = await response.json();	
+		configSetup = await response.json();	
 		
 		ver[0] = configSetup.ver[0];
 		ver[1] = configSetup.ver[1];
@@ -773,7 +776,6 @@ const init = () => {
 		openChart(nowValid, parsed_year, m, d, h, 0);	
 	});
 	btn11.addEventListener("click", function(event){ 
-		let jsonData = '';
 		event.preventDefault(); 
 		smoothChart = document.getElementById('chart0').value;
 		smoothPlotter.smoothing = smoothChart;		
@@ -781,20 +783,21 @@ const init = () => {
 		g.updateOptions({
 			rightGap: rightGapChart
 		});
-			jsonData = 'chart[0]=' + document.getElementById('chart0').value + '&chart[1]=' + document.getElementById('chart1').value;
-		ButtonClick(btn11, "get", 'smooth?'+jsonData, but[6], undefined, 1); 		
+		configSetup.chart[0] = smoothChart;
+		configSetup.chart[1] = rightGapChart;			
+		ButtonClick(btn11, "post", 'smooth', but[6], JSON.stringify(configSetup.chart), 1); 		
+
 	});
  	btn21.addEventListener("click", function(event){ 
-		let jsonData = '';
 		event.preventDefault(); 
 		for (let i = 0; i <= 5; i++) {		
-			for (let j = 0; j <= 5; j++) { 
-				jsonData += 'pwm['+i+']['+j+']='+document.getElementById('pwm'+i+j).value+'&';
+			for (let j = 0; j <= 5; j++) { 			
+				configSetup.pwm[i][j] = document.getElementById('pwm' + i + j).value;
+
 			}
 		}
-		jsonData += 'pwm[6][0]='+document.getElementById('pwm60').value;
- 
-		ButtonClick(btn21, "get", 'save_pwm?'+jsonData, but[6], undefined, 1); 
+		configSetup.pwm[6][0] = document.getElementById('pwm60').value;
+		ButtonClick(btn21, "post", 'save_pwm', but[6], JSON.stringify(configSetup.pwm), 1); 
 	});	
 	select_smode0.addEventListener("change", function(event){ 
 		event.preventDefault();
@@ -807,7 +810,6 @@ const init = () => {
 		} */
 	btn31.addEventListener("click", function(event){ 
 		event.preventDefault(); 
-		let jsonData = '';
 		let chk = 0;
 		
 		for (let i = 0; i <= 5; i++) {
@@ -817,11 +819,11 @@ const init = () => {
 		
 		for (let i = 0; i <= 5; i++) {		
 			for (let j = 0; j <= 2; j++) { 
-				jsonData += 'rel['+i+']['+j+']='+document.getElementById('rel'+i+j).value+'&';
+				configSetup.rel[i][j] = document.getElementById('rel'+i+j).value;
 			}
 		}
-		jsonData += 'rel[6][0]='+document.getElementById('rel60').value+'&';
-		jsonData += 'rel[6][1]='+document.getElementById('rel61').value;
+		configSetup.rel[6][0] = document.getElementById('rel60').value;
+		configSetup.rel[6][1] = document.getElementById('rel61').value;
 /* 		let fan_on  = parseFloat(document.getElementById("input213").value) + (parseFloat(document.getElementById("input214").value) / 2);
 		let fan_off = parseFloat(document.getElementById("input213").value) - (parseFloat(document.getElementById("input214").value) / 2);
 		let ten_off = parseFloat(document.getElementById("input215").value) + (parseFloat(document.getElementById("input216").value) / 2);
@@ -837,7 +839,8 @@ const init = () => {
 		document.getElementById("ttip_led").setAttribute('tooltip_led', ttip_led);	
 		log('blue',"[OPTION 805]", "INV", chk.toString(2));	 */		
 		//console.log(`INV: ${chk.toString(2)}`);
-		ButtonClick(btn31, "get", 'save_rel?'+jsonData, but[6], undefined, 1); 
+
+		ButtonClick(btn31, "post", 'save_rel', but[6], JSON.stringify(configSetup.rel), 1); 
 	});	
 	select_smode1.addEventListener("change", function(event){ 
 		event.preventDefault();
@@ -845,7 +848,6 @@ const init = () => {
 	});
 	btn41.addEventListener("click", function(event){ 
 		event.preventDefault(); 
-		let jsonData = '';
 		let chk = 0;
 		
 		for (let i = 0; i <= 1; i++) {
@@ -854,19 +856,42 @@ const init = () => {
 		document.getElementById('opt8').value = chk;	
 		
 		for (let i = 0; i <= 8; i++) {
-			jsonData += 'opt['+i+']='+document.getElementById('opt'+i).value+'&';
+			configSetup.opt[i] = document.getElementById('opt'+i).value;
 		}
-		ButtonClick(btn41, "get", 'save_opt?'+jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
+		ButtonClick(btn41, "post", 'save_opt', but[6], JSON.stringify(configSetup.opt), 1); 
 	});	
 
 	btn42.addEventListener("click", function(event){ 
 		event.preventDefault(); 
-		let jsonData = '';	
-/* 		for (let i = 0; i <= 9; i++) {
-			jsonData += 'opt['+i+']='+document.getElementById('opt'+i).value+'&';
+		// ТАБ 0 ВКЛАДКА НАСТРОЕК CHART
+		configLang.text[0][0] = document.getElementById('text00').value;  //Сглаживание	
+		configLang.text[0][1] = document.getElementById('text01').value; //Смещение			
+		
+		// ТАБ 1 ВКЛАДКА НАСТРОЕК PWM
+		for (let i = 0; i <= 5; i++)  { 
+			configLang.text[1][i+6] = document.getElementById('text1'+(i+1)+ '0').value; //Загрузка text Рассвет закат длит мин ярк макс ярк
+			configLang.text[1][i] = document.getElementById('text1'+i).value;     //Загрузка text PWM 1 2 3 4 5 6 
+			configLang.text[2][i] = document.getElementById('text2'+i).value;     //Загрузка text Реле 1 2 3 4 5 6 
 		}
-		ButtonClick(btn42, "get", 'save_text?'+jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
- */
+		// ТАБ 2 ВКЛАДКА НАСТРОЕК РЕЛЕ		
+		for (let i = 1; i <= 3; i++) { 
+			configLang.text[2][i+5] = document.getElementById('text2'+i+'0').value; //Загрузка textинтервакл длит
+		}
+				
+		configLang.text[1][12] = document.getElementById('text16').value; //Режим всех ШИМ		
+		configLang.text[2][9] = document.getElementById('text26').value; //Режим всех Реле
+		configLang.text[2][10] = document.getElementById('text27').value; //Инверсия Реле		
+ 		
+		// ТАБ 3 ВКЛАДКА ОБЩИХ НАСТРОЕК
+		for (let i = 0; i <= 15; i++) { 
+			configLang.text[3][i] = document.getElementById('text3'+i).value;
+		}
+			
+		// ТАБ 4 ВКЛАДКА НАСТРЕК WIFI
+		for (let i = 0; i <= 7; i++) { 
+			configLang.text[4][i] = document.getElementById('text4'+i).value;
+		}
+		ButtonClick(btn42, "post", 'save_text', but[6], JSON.stringify(configLang.text), 1); 
 	});
 	
 	
@@ -911,33 +936,30 @@ const init = () => {
 		}	
 	});	
 	btn51.addEventListener("click", function(event){ 
-		let jsonData = '';
 		event.preventDefault(); 
 		for (let i = 0; i <= 2; i++) {
-			jsonData += 'wifi['+i+']='+document.getElementById('wifi'+i).value+'&';
+			configSetup.wifi[i] = document.getElementById('wifi'+i).value;
 		}
-		ButtonClick(btn51, "get", 'man_date?'+jsonData.substring(0, jsonData.length-1), but[4], undefined, 1); 
+		ButtonClick(btn51, "post", 'man_date', but[4], JSON.stringify(configSetup.wifi), 1); 
 	});
 	btn52.addEventListener("click", function(event){ 
 		event.preventDefault(); 
-		let jsonData = 'wifi[2]=' + document.getElementById("wifi2").value;
-		ButtonClick(btn52, "get", 'auto_sync?'+jsonData, but[5], undefined, 1); 
+		configSetup.wifi[2] = document.getElementById("wifi2").value;
+		ButtonClick(btn52, "post", 'auto_sync', but[5], JSON.stringify(configSetup.wifi), 1); 
 	});		
 	btn53.addEventListener("click", function(event){ 
 		let jsonData = '';
 		event.preventDefault(); 
   		for (let i = 3; i <= 9; i++) {
-			jsonData += 'wifi['+i+']='+document.getElementById('wifi'+i).value+'&';
+			configSetup.wifi[i] = document.getElementById('wifi'+i).value;
 		} 
-  		ButtonClick(btn53, "get", '/save_wifi?' + jsonData.substring(0, jsonData.length-1), but[6], undefined, 1); 
-  		//ButtonClick(btn53, "post", '/save_wifi', jsonData.substring(0, jsonData.length-1), 1);
+  		ButtonClick(btn53, "post", 'save_wifi', but[6], JSON.stringify(configSetup.wifi), 1);
 	});	
 	btn56.addEventListener("click", function(event){ 
 		event.preventDefault(); 
 		let device = confirm(restartMessage)?1:0;
-        if (device == 1) {
-			ButtonClick(btn56, "get", '/restart?device='+device, but[9], undefined, 1); 		
-			//ButtonClick(btn56, "post", '/restart', 'device='+device, 1); 		
+        if (device == 1) {		
+			ButtonClick(btn56, "post", 'restart', but[9], 'device='+device, 1); 		
 			setTimeout(() => {window.location.reload(true);}, 10000);
 		}
 	});
@@ -950,7 +972,8 @@ const init = () => {
 		}
 		//ttip_wifi = 'RSSI: '+rssi+' dBm\n'+ 'HeapMin: ' +st_heap+ '\nWS: ' +ws_client+ '\nRST COUNT: 0';			
 		//document.getElementById("ttip_wifi").setAttribute('tooltip_wifi', ttip_wifi);
-		ButtonClick(btn00, "get", '/rst_count?restart=' + rst_count, but[6], undefined, 1);
+		//ButtonClick(btn00, "get", '/rst_count?restart=' + rst_count, but[6], undefined, 1);
+		ButtonClick(btn00, "post", 'rst_count', but[6], 'restart='+rst_count, 1);
 	});
 }
 window.onerror = function(message, url, lineNumber) {

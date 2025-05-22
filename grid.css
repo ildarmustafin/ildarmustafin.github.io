@@ -92,9 +92,7 @@ input[type=submit], #rst_c {cursor: pointer;}
 	background-color:white;
 	width:100%;
  }
-input[type=number], input[type=text], input[type=password]  {
-	//padding-right:10px;
-}
+
 #Button01, #Button02 {cursor: pointer;}
 .select {
 	font-size:18px;
@@ -133,6 +131,15 @@ form { display: grid;grid-template-columns: repeat(8, [col] 75px);}
 	color:white;
 }
 .editText {
+	font-size:18px;
+	border:0.2px solid #36343361;
+	background-color: #E9ECEF;
+	display:flex;
+	align-items: center;
+	justify-content: left;
+	text-align:left;		
+}
+.edit {
 	font-size:18px;
 	border:0.2px solid #36343361;
 	background-color: #E9ECEF;
@@ -204,6 +211,7 @@ textarea {
 .pr-5 {padding-right:5px;}
 .pl-10 {padding-left:10px;}
 .pr-10 {padding-right:10px;}
+.pr-15 {padding-right:15px;}
 .pt-10 {padding-top:10px;}
 .pt-5 {padding-top:5px;}
 
