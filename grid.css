@@ -81,6 +81,11 @@ input {
 input[type=number] {
 	padding-right:10px;
 }
+input[type="number"]::-webkit-inner-spin-button, 
+input[type="number"]::-webkit-outer-spin-button { 
+	-webkit-appearance: none; margin: 0; 
+}
+
 input[type=submit]:hover {background-color:black;}
 input[type=submit], #rst_c {cursor: pointer;}
 
