@@ -83,7 +83,7 @@ input[type=submit], #rst_c {cursor: pointer;}
 .without_ampm::-webkit-datetime-edit-ampm-field {
    display: none;
  }
- input[type=date], input[type=time]::-webkit-clear-button {
+/*  input[type=date], input[type=time]::-webkit-clear-button {
    -webkit-appearance: none;
    -moz-appearance: none;
    -o-appearance: none;
@@ -91,7 +91,8 @@ input[type=submit], #rst_c {cursor: pointer;}
    appearance: none;
 	background-color:white;
 	width:100%;
- }
+	max-width:100%;
+ } */
 
 #Button01, #Button02 {cursor: pointer;}
 .select {
