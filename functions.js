@@ -390,7 +390,7 @@ const openlang = async (cfgLang, countTry) => {
 			document.getElementById('text3'+i).value = configLang.text[3][i];
 		}
 		for (let i in configLang.tab) {
-			document.getElementById("tab"+i).value = configLang.tab[i]; 
+			document.getElementById("tab"+i).innerText = configLang.tab[i]; 
 		}
 			
 		// ТАБ 4 ВКЛАДКА НАСТРЕК WIFI
