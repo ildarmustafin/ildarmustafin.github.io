@@ -37,7 +37,7 @@
 			<path fill="white" id="wifiID" d="M0 13.5a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5zm4 0a.5.5 0 0 1 .5-.5h2a.5.5 0 0 1 0 1h-2a.5.5 0 0 1-.5-.5z"/>
 		</svg>	 
     </div>
-	<select name="defaultLang" id="selLang" class="select selectText s2 rdLR" style="width:100%; height:100%;">
+	<select name="defaultLang" id="selLang" class="selectText s2 rdLR" style="width:100%; height:100%;">
 		<option value="0">RUS</option>
 		<option value="1">ENG</option>
 	</select> 
@@ -394,19 +394,23 @@
 				<input type="time" id="rel00" class="s5 rdRight" step="1" style="width:100%">	
 				
 				<textarea class="editText s5" id="text220" readonly></textarea>	
-				<input type="number" id="rel01" class="rdRight s5" list="rel01List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel01List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel01" list="rel01list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel01list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="editText s5" id="text230" readonly></textarea>	
-				<input type="number" id="rel02" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+
+				<input type="number" id="rel02" list="rel02list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel02list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------- REL 2 -------------------------------------------- -->
 				<textarea class="editText rdLeft" id="text21" style="grid-row:4/7; grid-column: 1/3;" readonly></textarea>	
 
@@ -414,19 +418,22 @@
 				<input type="time" id="rel10" class="rdRight s5" step="1" style="width:100%">	
 				
 				<textarea class="edit s5" id="text221" readonly></textarea>		
-				<input type="number" id="rel11" class="rdRight s5" list="rel11List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel11List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel11" list="rel11list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel11list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="edit s5" id="text231" readonly></textarea>	
-				<input type="number" id="rel12" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<input type="number" id="rel12" list="rel12list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel12list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------- REL 3 -------------------------------------------- -->
 				<textarea class="editText rdLeft" id="text22" style="grid-row:7/10; grid-column: 1/3;" readonly></textarea>
 
@@ -434,19 +441,22 @@
 				<input type="time" id="rel20" class="rdRight s5" step="1" style="width:100%">	
 				
 				<textarea class="edit s5" id="text222" readonly></textarea>	
-				<input type="number" id="rel21" class="rdRight s5" list="rel21List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel21List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel21" list="rel21list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel21list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="edit s5" id="text232" readonly></textarea>
-				<input type="number" id="rel22" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<input type="number" id="rel22" list="rel22list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel22list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------- REL 4 -------------------------------------------- -->
 				<textarea class="editText rdLeft alignLeft pl-10" id="text23" style="grid-row:10/13; grid-column: 1/3;" readonly></textarea>
 
@@ -454,19 +464,22 @@
 				<input type="time" id="rel30" class="rdRight s5" step="1" style="width:100%">	
 				
 				<textarea class="edit s5" id="text223" readonly></textarea>	
-				<input type="number" id="rel31" class="rdRight s5" list="rel31List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel31List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel31" list="rel31list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel31list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="edit s5" id="text233" readonly></textarea>	
-				<input type="number" id="rel32" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<input type="number" id="rel32" list="rel32list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel32list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------- REL 5 -------------------------------------------- -->
 				<textarea class="editText rdLeft" id="text24" style="grid-row:13/16; grid-column: 1/3;" readonly></textarea>
 
@@ -474,19 +487,22 @@
 				<input type="time" id="rel40" class="rdRight s5" step="1" style="width:100%">	
 				
 				<textarea class="edit s5" id="text224" readonly></textarea>	
-				<input type="number" id="rel41" class="rdRight s5" list="rel41List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel41List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel41" list="rel41list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel41list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="edit s5" id="text234" readonly></textarea>	
-				<input type="number" id="rel42" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<input type="number" id="rel42" list="rel42list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel42list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------- REL 6 -------------------------------------------- -->
 				<textarea class="editText rdLeft" id="text25" style="grid-row:16/19; grid-column: 1/3;" readonly></textarea>
 
@@ -494,20 +510,22 @@
 				<input type="time" id="rel50" class="rdRight s5" step="1" style="width:100%">	
 				
 				<textarea class="edit s5" id="text225" readonly></textarea>
-				<input type="number" id="rel51" class="rdRight s5" list="rel51List" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
-				<datalist id="rel51List">
-						<option value="360">Каждые 6 часов</option>
-						<option value="720">Каждый 12 часов</option>
-						<option value="1440">Каждый день</option>
-						<option value="2880">Каждые 2 дня</option>
-						<option value="4320">Каждые 3 дня</option>
-						<option value="5760">Каждые 4 дня</option>						
-						<option value="10080">Каждую неделю</option>
+				<input type="number" id="rel51" list="rel51list" class="rdRight s5" onclick="inputIdPrevValue=value; value='';" onfocusout="if (value == '') value = inputIdPrevValue;" onchange="inputIdPrevValue=value;" min="1" placeholder="[мин]">				
+				<datalist id="rel51list">
+					<option value="360">Каждые 6 часов</option>
+					<option value="720">Каждый 12 часов</option>
+					<option value="1440">Каждый день</option>
+					<option value="2880">Каждые 2 дня</option>
+					<option value="4320">Каждые 3 дня</option>
+					<option value="5760">Каждые 4 дня</option>						
+					<option value="10080">Каждую неделю</option>
 				</datalist>
 				
 				<textarea class="edit s5" id="text235" readonly></textarea>	
-				<input type="number" id="rel52" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
-
+				<input type="number" id="rel52" list="rel52list" tooltip_d="" class="rdRight s5" step="1" min="1" placeholder="[сек]">				
+				<datalist id="rel52list">						
+					<option value="0"></option>	
+				</datalist>
 <!--  ------------------------------------------ РЕЛЕ АВТО --------------------------------------------- -->					
 				<textarea class="editText brd s7" id="text26" readonly></textarea>	
 				<div hidden><input type="number" id="rel60"></div>	
